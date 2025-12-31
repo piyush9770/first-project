@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Year</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100vh;
+      width: 100vw;
+    }
+
+    main {
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: url(./ChatGPT\ Image\ Dec\ 20\,\ 2025\,\ 08_39_50\ PM.png);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    main div {
+      position: absolute;
+      bottom: 10rem;
+      display: flex;
+      gap: 1.5rem;
+      z-index: 10;
+    }
+
+    main div button {
+      font-size: 1.4rem;
+      padding: 1rem 3rem;
+      border-radius: 5rem;
+      background-image: url(./ChatGPT\ Image\ Dec\ 20\,\ 2025\,\ 05_35_14\ PM.png);
+      background-size: cover;
+      background-repeat: no-repeat;
+      cursor: pointer;
+      border: none;
+    }
+
+    main div button:hover {
+      scale: 0.95;
+      color: white;
+    }
+
+    @media (max-width: 600px) {
+      main div button {
+        font-size: 1rem;
+        padding: 1rem 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 🎵 BACKGROUND MUSIC -->
+  <audio id="bgm" autoplay muted loop>
+    <source src="./Billie Eilish - lovely (Lyrics) ft. Khalid.mp3" type="audio/mpeg">
+  </audio>
+
+  <main>
+    <div>
+      <button id="start">Start</button>
+      <button id="stop">Stop</button>
+    </div>
+  </main>
+
+  <script>
+    /* 🔊 AUTOPLAY + AAGE SE START */
+    document.addEventListener("click", function () {
+      const audio = document.getElementById("bgm");
+      audio.muted = false;
+        audio.volume = 0.25;  
+      audio.currentTime = 30; // 🔥 yahan se gaana start hoga (seconds)
+      audio.play();
+    }, { once: true });
+
+    /* 🔽 ANIMATION CODE (same) */
+    let usedpos = [];
+
+    function newpos() {
+      let pos;
+      let attempt = 0;
+
+      do {
+        pos = {
+          x: Math.floor(Math.random() * 6) * 15,
+          y: Math.floor(Math.random() * 6) * 12
+        };
+        attempt++;
+      } while (
+        usedpos.some(p => p.x === pos.x && p.y === pos.y) &&
+        attempt < 20
+      );
+
+      usedpos.push(pos);
+
+      setTimeout(() => {
+        usedpos = usedpos.filter(val => val !== pos);
+      }, 4000);
+
+      return pos;
+    }
+
+    let arr = [
+      "Happy New Year to you and your family! 🎉",
+      "Happy New Year! 🎊",
+      "Wishing you a bright and joyful year ahead! 🌟",
+      "Enjoy every moment 🎊",
+      "Naya saal, nayi khushiyan 🌸",
+      "Peace, success & happiness ✨",
+      "Smile & shine 🌟"
+    ];
+
+    let main = document.querySelector("main");
+    let start = document.getElementById("start");
+    let stop = document.getElementById("stop");
+
+    let interval = null;
+    let ate = [2000, 4000, 6000, 8000, 9000, 1000];
+
+    start.addEventListener("click", function () {
+      if (interval !== null) return;
+
+      interval = setInterval(() => {
+        let h1 = document.createElement("h1");
+        let a = Math.floor(Math.random() * arr.length);
+        let rot = Math.floor(Math.random() * 180);
+        let font = Math.floor(Math.random() * 3) + 1;
+
+        h1.style.fontSize = `clamp(1.5rem, ${font}rem, 5vw)`;
+        h1.style.color = "#ffffff";
+        h1.style.textShadow = `
+          0 0 4px rgba(255,255,255,0.9),
+          0 0 8px rgba(255,60,60,0.9),
+          0 0 16px rgba(255,0,80,0.8),
+          0 0 24px rgba(255,0,120,0.7)
+        `;
+
+        let mypos = newpos();
+        let v = Math.floor(Math.random() * ate.length);
+        let removeTime = 4000 + ate[v];
+
+        h1.style.position = "absolute";
+        h1.style.left = `${mypos.x}vw`;
+        h1.style.top = `${mypos.y}vh`;
+        h1.style.transform = `rotate(${rot}deg)`;
+
+        h1.innerHTML = arr[a];
+
+        setTimeout(() => h1.remove(), removeTime);
+        main.appendChild(h1);
+      }, 800);
+    });
+
+    stop.addEventListener("click", function () {
+      clearInterval(interval);
+      interval = null;
+    });
+  </script>
+
+</body>
+</html>
